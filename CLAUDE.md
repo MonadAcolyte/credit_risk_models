@@ -12,5 +12,7 @@ Important rules for the coding agent:
 
 You may also include key decisions in this context file if needed.
 
+If you wish to edit anything barred by these rules, suggest it over the chat or leave a draft in drafts/
+
 # ...
     
