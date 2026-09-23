@@ -6,6 +6,13 @@ data/raw/
 data/processed
 models/
 
+.venv/
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
 # LaTeX
 
 .vscode

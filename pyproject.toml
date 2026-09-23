@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "credit-risk"
+version = "0.1.0"
+description = "Calibrated credit default models with a model-risk write-up"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "xlrd",
+    "scipy",
+    "scikit-learn",
+    "optbinning",
+    "lightgbm",
+    "shap",
+    "matplotlib",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter",
+    "pytest",
+    "ruff",
+    "nbstripout",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
