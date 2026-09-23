@@ -1,0 +1,9 @@
+[paths]
+raw_dir = "data/raw"
+processed_dir = "data/processed"
+
+[source]
+url = "https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip"
+archive_member = "default of credit card clients.xls"
+raw_file = "uci_taiwan_default.xls"
+sha256 = "30c6be3abd8dcfd3e6096c828bad8c2f011238620f5369220bd60cfc82700933"
