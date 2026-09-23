@@ -2,6 +2,9 @@
 
 drafts/*
 
+data/raw/
+data/processed
+models/
 
 # LaTeX
 
