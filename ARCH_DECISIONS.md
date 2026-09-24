@@ -23,3 +23,15 @@ Paths in [paths] are converted to absolute paths from the repository root, so sc
 
 2026-09-23: `~/requirements.txt`; environment; HiGHS import warning from CVXPY accepted
 When optbinning is imported, OR-Tools loads its bundled HiGHS library before CVXPY loads highspy, so highspy's extension fails with an undefined symbol and CVXPY logs an ImportError for the HiGHS solver. Imports still succeed. The scorecard's binning uses OR-Tools, and CVXPY is only reached through ropwr for piecewise binning, which this project does not use. Revisit if piecewise binning is ever needed.
+
+2026-09-23: `~/src/credit_risk/data.py`; RENAMES; Target renamed to `default`, PAY_0 to PAY_1
+The source spreadsheet's target name contains spaces and is awkward to use in code. PAY_0 is renamed so the repayment status columns run PAY_1 to PAY_6, matching BILL_AMT1–6 and PAY_AMT1–6 (all indexed from September 2005 back to April 2005). The spreadsheet's first header row (X1…X23, Y) is skipped by reading with header=1.
+
+2026-09-24: `~/src/credit_risk/data.py`; clean; Undocumented category codes merged into "other"
+EDUCATION 0, 5 and 6 (445 rows) are not in the dataset documentation and are merged into 4 ("others"); MARRIAGE 0 (54 rows) is merged into 3 ("others"). The groups are too small to estimate reliably on their own, and a scorecard needs every category to carry a meaningful weight of evidence. PAY_* values -2 and 0 are kept as they are: they are common, and their default rates differ from the documented -1, so they carry information. Negative bill amounts and the 35 records that duplicate another apart from ID (mostly dormant accounts with no bills or payments) are kept as genuine customers. Raw data is never modified; clean() returns a copy.
+
+2026-09-24: `~/src/credit_risk/data.py`; make_split / load_splits; Frozen 60/20/20 stratified split saved by ID
+The split is stratified on the target so every part keeps the 22.1% default rate. Only the ID-to-split assignment is saved; cleaning is cheap and deterministic, so the cleaned data is rebuilt from raw each time. make_split refuses to overwrite a saved split unless told to, and load_splits omits the test set unless include_test=True, so the test set cannot be used by accident before the final evaluation.
+
+2026-09-24: `~/configs/uci_taiwan.toml`; assumptions.cost_ratio; Cost ratio of 5:1 assumed
+A missed defaulter is assumed to cost five times a wrongly declined good customer: unsecured card losses given default are high (roughly 70–90% of the balance), while the revenue lost from a good customer is roughly 10–20% of the balance a year. With calibrated probabilities the cost-minimising cut-off is 1 / (1 + ratio), about 0.17. This is an assumption, and results will be tested for sensitivity to it.

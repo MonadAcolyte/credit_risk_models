@@ -7,3 +7,12 @@ url = "https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clie
 archive_member = "default of credit card clients.xls"
 raw_file = "uci_taiwan_default.xls"
 sha256 = "30c6be3abd8dcfd3e6096c828bad8c2f011238620f5369220bd60cfc82700933"
+
+[split]
+seed = 2112
+train = 0.6
+validation = 0.2
+test = 0.2
+
+[assumptions]
+cost_ratio = 5

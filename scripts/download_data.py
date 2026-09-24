@@ -20,7 +20,9 @@ def main() -> None:
 
     if target.exists():
         if sha256(target.read_bytes()) != source["sha256"]:
-            raise ValueError(f"{target} exists but its checksum does not match; delete it and rerun.")
+            raise ValueError(
+                f"{target} exists but its checksum does not match; delete it and rerun."
+            )
         print(f"Already present and verified: {target}")
         return
 
@@ -32,7 +34,9 @@ def main() -> None:
 
     digest = sha256(data)
     if digest != source["sha256"]:
-        raise ValueError(f"Checksum mismatch: expected {source['sha256']}, got {digest}")
+        raise ValueError(
+            f"Checksum mismatch: expected {source['sha256']}, got {digest}"
+        )
 
     raw_dir.mkdir(parents=True, exist_ok=True)
     target.write_bytes(data)
