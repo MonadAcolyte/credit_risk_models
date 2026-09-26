@@ -35,3 +35,12 @@ The split is stratified on the target so every part keeps the 22.1% default rate
 
 2026-09-24: `~/configs/uci_taiwan.toml`; assumptions.cost_ratio; Cost ratio of 5:1 assumed
 A missed defaulter is assumed to cost five times a wrongly declined good customer: unsecured card losses given default are high (roughly 70–90% of the balance), while the revenue lost from a good customer is roughly 10–20% of the balance a year. With calibrated probabilities the cost-minimising cut-off is 1 / (1 + ratio), about 0.17. This is an assumption, and results will be tested for sensitivity to it.
+
+2026-09-26: `~/src/credit_risk/`; model inputs; Protected characteristics excluded from both models
+SEX, MARRIAGE and AGE are protected characteristics under the Equality Act 2010 (age has a financial services exception for risk assessment). On the training set their information values are 0.010, 0.005 and 0.025, so leaving them out costs almost nothing. They are kept in the data for the fairness analysis only. EDUCATION is not a protected characteristic and goes through normal feature selection.
+
+2026-09-26: `~/src/credit_risk/`; ratio features; Ratio features deferred to the challenger
+Utilisation (BILL_AMT_i / LIMIT_BAL) and repayment ratio (PAY_AMT_i / BILL_AMT_(i+1)) have much higher univariate IV than raw bill amounts (0.10–0.26 against about 0.01). A quick train → validation test with untuned models (protected characteristics removed) gave:
+- WoE scorecard: AUC 0.7582 → 0.7585, bootstrap 95% CI of the gain [-0.004, +0.005]; Brier 0.1407 → 0.1406, CI [-0.0006, +0.0004]. No gain, because the repayment status and payment amount variables already carry the same information.
+- LightGBM: AUC 0.7741 → 0.7783, CI of the gain [+0.0005, +0.0083]; Brier 0.1378 → 0.1376, CI [-0.0008, +0.0006]. A small real gain in ranking only; probability accuracy is unchanged.
+The scorecard is therefore built on the raw variables. Whether the ratios are added is decided again when the challenger is tuned.
